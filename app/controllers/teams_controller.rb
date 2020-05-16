@@ -56,4 +56,12 @@ class TeamsController < ApplicationController
   def team_params
     params.fetch(:team, {}).permit %i[name icon icon_cache owner_id keep_team_id]
   end
+
+  def ensure_correct_user
+    @task = Task.find(params[:id])
+    if current_user.id != @task.user.id
+      flash[:notice] = "権限がありません"
+      redirect_to root_path
+    end
+  end
 end
