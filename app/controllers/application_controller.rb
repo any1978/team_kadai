@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   def init_team
-    # binding.pry
     current_user.assigns.create!(team_id: Team.first.id) if current_user.teams.blank?
   end
 end
