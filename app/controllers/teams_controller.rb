@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy changeowner]
 
   def index
     @teams = Team.all
@@ -51,6 +51,31 @@ class TeamsController < ApplicationController
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
+
+  # def changeowner
+  #   if current_user == @team.owner
+  #     # assign = Assign.find(params[:id])
+  #     binding.pry
+  #     @team.assigns
+  #     # @team.owner = @team.assigns(params[:format])
+  #     # @team.owner = assign.user
+  #     redirect_to team_path
+  #     flash[:notice] = "権限を移動しました"
+  #   end
+  # end
+
+  def change_owner  # アクション追加
+    @team = Team.friendly.find(params[:id])
+    @assign = Assign.find(params[:assign])
+    if @team.update(owner_id: @assign.user.id)
+      ChangeOwnerMailer.change_owner_mail(@assign.user.email).deliver
+      redirect_to team_url, notice: I18n.t('views.messages.leader_permissions_moved!')
+    else
+      redirect_to team_url, notice: I18n.t('views.messages.leader_permissions_transfer failed...')
+    end
+    binding.pry
+  end 
+
 
   private
 
