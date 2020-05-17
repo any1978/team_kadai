@@ -16,8 +16,7 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    if current_user == @team.owner
-    else
+    unless current_user == @team.owner
       flash[:notice] = "権限がありません"
       redirect_to team_url#(params[:team_id])
     end
@@ -63,11 +62,4 @@ class TeamsController < ApplicationController
     params.fetch(:team, {}).permit %i[name icon icon_cache owner_id keep_team_id]
   end
 
-  # def ensure_correct_user
-  #   @task = Task.find(params[:id])
-  #   if current_user.id != @task.user.id
-  #     flash[:notice] = "権限がありません"
-  #     redirect_to root_path
-  #   end
-  # end
 end

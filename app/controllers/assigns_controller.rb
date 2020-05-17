@@ -49,10 +49,7 @@ class AssignsController < ApplicationController
 
   def ensure_correct_user
     assign = Assign.find(params[:id])
-    # binding.pry
-    if current_user == assign.team.owner
-    elsif current_user == assign.user
-    else
+    unless current_user == assign.team.owner || current_user == assign.user
       flash[:notice] = "権限がありません"
       redirect_to team_url(params[:team_id])
     end
