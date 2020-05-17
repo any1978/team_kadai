@@ -15,7 +15,12 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+    unless current_user == @team.owner
+      flash[:notice] = "権限がありません"
+      redirect_to team_url#(params[:team_id])
+    end
+  end
 
   def create
     @team = Team.new(team_params)
@@ -56,4 +61,5 @@ class TeamsController < ApplicationController
   def team_params
     params.fetch(:team, {}).permit %i[name icon icon_cache owner_id keep_team_id]
   end
+
 end
