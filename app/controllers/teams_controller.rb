@@ -52,17 +52,6 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
-  # def changeowner
-  #   if current_user == @team.owner
-  #     # assign = Assign.find(params[:id])
-  #     binding.pry
-  #     @team.assigns
-  #     # @team.owner = @team.assigns(params[:format])
-  #     # @team.owner = assign.user
-  #     redirect_to team_path
-  #     flash[:notice] = "権限を移動しました"
-  #   end
-  # end
 
   def change_owner  # アクション追加
     @team = Team.friendly.find(params[:id])
@@ -73,7 +62,6 @@ class TeamsController < ApplicationController
     else
       redirect_to team_url, notice: I18n.t('views.messages.leader_permissions_transfer failed...')
     end
-    binding.pry
   end 
 
 

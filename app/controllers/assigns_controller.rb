@@ -14,15 +14,6 @@ class AssignsController < ApplicationController
   end
 
 
-  # def update
-  #   assign = Assign.find(params[:id])
-  #   # if @assign.update(assign_params)
-  #   if current_user == assign.team.owner
-  #     assign.team.owner = assign.user
-  #     redirect_to team_url(params[:team_id])
-  #     flash[:notice] = "権限を移動しました"
-  #   end
-  # end
 
   def update
   end
