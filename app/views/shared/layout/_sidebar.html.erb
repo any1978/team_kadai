@@ -27,7 +27,7 @@
     </div>
     <!-- Sidebar Menu -->
     <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <ul class="nav nav-pills nav-sidebar"  data-widget="treeview" role="menu" data-accordion="false">
         <% @working_team.agendas.each do |agenda| %>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
@@ -52,6 +52,11 @@
               </li>
             </ul>
           </li>
+          <p style = "float: right; padding-left: 20px;">
+            <% if ( current_user.id == agenda.team.owner.id ) || ( current_user.id == agenda.user.id ) %> 
+              <%= link_to I18n.t('views.button.delete'),agenda_path(agenda.id, @team), method: :delete, class: 'btn btn-sm btn-danger' %>
+            <% end %>
+          </p>
         <% end %>
       </ul>
     </nav>
